@@ -53,3 +53,35 @@ export const createUser = async ({ name, email, password, role = "user" }) => {
     throw e;
   }
 };
+
+export const authenticateUser = async (email, password) => {
+  try {
+    const [user] = await db
+      .select()
+      .from(users)
+      .where(eq(users.email, email))
+      .limit(1);
+
+    if (!user) {
+      logger.info(`Authentication failed: user with email ${email} not found`);
+      throw new Error("Invalid email or password");
+    }
+
+    const isPasswordValid = await comparePassword(password, user.password);
+
+    if (!isPasswordValid) {
+      logger.info(`Authentication failed: invalid password for email ${email}`);
+      throw new Error("Invalid email or password");
+    }
+
+    logger.info(`User ${user.email} authenticated successfully`);
+
+    const { password: _password, ...safeUser } = user;
+    return safeUser;
+  } catch (e) {
+    if (e.message !== "Invalid email or password") {
+      logger.error(`Error authenticating the user: ${e}`);
+    }
+    throw e;
+  }
+};
