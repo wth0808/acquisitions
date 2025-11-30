@@ -35,7 +35,7 @@ FROM base AS development
 USER root
 RUN npm ci && npm cache clean --force
 USER nodejs
-CMD ["npm", "run", "dev"]
+CMD ["npm", "run", "dev:docker-watch"]
 
 # Production stage
 FROM base AS production
