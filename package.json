@@ -22,7 +22,8 @@
     "db:studio": "drizzle-kit studio",
     "dev:docker": "sh scripts/dev.sh",
     "prod:docker": "sh scripts/prod.sh",
-    "dev:docker-watch": "nodemon -L src/index.js"
+    "dev:docker-watch": "nodemon -L src/index.js",
+    "test": "cross-env NODE_OPTIONS=--experimental-vm-modules jest"
   },
   "keywords": [],
   "author": "tinhou",
@@ -45,7 +46,10 @@
     "zod": "^4.1.12"
   },
   "devDependencies": {
+    "cross-env": "^10.1.0",
     "drizzle-kit": "^0.31.6",
-    "nodemon": "^3.1.11"
+    "jest": "^30.2.0",
+    "nodemon": "^3.1.11",
+    "supertest": "^7.1.4"
   }
 }
